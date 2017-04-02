@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title></title>
+
+</head>
+
+<body>
+
+<h1>JavaScript pokemon</h1>
+
+
+<script>
+
+function Attack(name,power,acc,EPcost){
+  this.name = name
+  this.power = power
+  this.acc = acc
+  this.EPcost = EPcost
+}
+
+function Pokemon(name,HP,EP,speed,attacks){
+  this.name = name
+  this.maxHP = HP
+  this.HP = HP
+  this.maxEP = EP
+  this.EP = EP
+  this.speed = speed
+  this.attacks = attacks
+  this.owner = 'empty'
+}
+function zero_HP(pokemon1, pokemon2){
+  /*kontrola, ci jeden z pokemonou uz neprehral*/
+  if (pokemon1.HP <= 0 || pokemon2.HP <= 0){
+    return true
+  }else {
+    return false
+  }
+}
+
+function output_attacks(attacks){
+  /*vypis vsetkych utokov z pokemonoveho atributu attacks*/
+  for (i=0; i < attacks.lenght; i++){
+    document.write(`[${i+1}] attacks[i].name, power = ${attacks[i].power}` +
+      `, accuracy = ${attacks[i].acc}, Energy cost = ${attacks[i].EPcost}`)
+  }
+}
+
+function Turn(attacker, defender, bot){
+  /*jedno kolo s prene definovanym , kto utoci a kto je zasiahnuty*/
+  /*vypis stavou pokemonov*/
+  document.write(`========== ${attacker.name}\'s turn ========== <br>` +
+  `${attacker.name}     HP = ${attacker.HP}/${attacker.maxHP}` +
+  ` EP = ${attacker.EP}/${attacker.maxEP} Speed = ${attacker.speed} <br>`)
+  document.write(`${defender.name}     HP = ${defender.HP}/${defender.maxHP}` +
+  ` EP = ${defender.EP}/${defender.maxEP} Speed = ${defender.speed} <br> <br>`)
+  /*vyber utoku, podla toho, ci pokemona ovlada bot alebo clovek. Bot voli utok nahodne
+  a ked nemoze pouzit tento nahodny, tak ide poporade a pouzije ten, na ktory ma EP,
+  ak na ziadny nema dost EP tak sa kolo regeneruje*/
+  if (attacker.owner == 'player'){
+    output_attacks(attacker.attacks)
+    attk_select = prompt(`Select attack:`) - 1
+  } else{
+    attk_select = Math.floor(Math.random() * 4)
+    if (attacker.attacks[attk_select].EPcost > attacker.EP){
+      for (i=0; i < 4; i++){
+        attk_select = i
+        if (attacker.attacks[attk_select].EPcost <= attacker.EP){
+          i = 5
+        }
+      }
+    }
+  }
+  /*ak neni dost EP tak pokemon regeneruje*/
+  if(attacker.EP < attacker.attacks[attk_select].EPcost){
+    document.write(`${attcker.name} doesn\'t have enough EP so he will rest. <br>`)
+  } else {
+    hit = Math.random() * 100 /*nahodne cislo 0-99 na generovanie zasahu*/
+    /*netrafenie utoku*/
+    if (hit > attacker.attacks[attk_select].acc){
+      document.write(`${attacker.name} missed his attack. <br>`)
+    } else{
+      /*trafenie utoku a generovanie sili utoku v rozsahu +/- 30% od atributu power*/
+      document.write(`${attacker.name} used ${attacker.attacks[attk_select].name} <br>`)
+      dmg = Math.floor(attacker.attacks[attk_select].power *
+        Math.floor((Math.random() * 60) + 70) / 100)
+      document.write(`${defender.name} was hit and lost ${dmg} HP. <br>`)
+      defender.HP -= dmg
+    }
+    /*odcitanie EP utocnikovi a pripocitanie EP (10% z maxEP) braniacemu sa pokemonovi*/
+    attacker.EP -= attacker.attacks[attk_select].EPcost
+    defender.EP += defender.maxEP / 10
+    if (defender.EP > defender.maxEP){
+      defender.EP = defender.maxEP
+    }
+  }
+}
+
+/*generovanie utokov*/
+wing_att = new Attack('wing attack',30,90,15)
+seismic_toss = new Attack('seismic toss',110,70,60)
+cut = new Attack('cut',15,90,5)
+flamethrower = new Attack('flamethrower',60,80,35)
+mega_punch = new Attack('mega_punch',70,75,40)
+punch = new Attack('punch',15,90,5)
+leer = new Attack('leer',0,50,0)
+earthquake = new Attack('earthquake',100,100,100)
+megahorn = new Attack('megahorn',120,60,60)
+thrash = new Attack('trash',80,70,45)
+
+/*generovanie pokemonov*/
+Charizard = new Pokemon('Charizard',200,120,100,[wing_att,seismic_toss,cut,flamethrower],200,120)
+Machamp = new Pokemon('Machamp  ',180,140,90,[mega_punch,seismic_toss,leer,punch],180,140)
+Nidoking = new Pokemon('Nidoking ',220,130,105,[earthquake,megahorn,thrash,punch],220,130)
+
+var PokemonList = [Charizard, Machamp, Nidoking] /*list vygenerovanych pokemonov*/
+
+document.write('Rules: Basically just follow instructions but if u type different' +
+ ' number than options give you the game will crush. Each atk will consume some' +
+ ' EP(energy points) and if you want to regenerate your EP just use atk that uses' +
+ ' more than you currently have. \n')
+
+document.write('================================== Game Begins ================================== <br>')
+var choice_bot = prompt('[1] single-player \n[2] multiplayer'); /*volba bota*/
+document.write('pokemons: <br>') /*vypis pokemonov z pokemon listu*/
+for (i = 1; i <= PokemonList.length; i++){
+  document.write(`[${i}]  ${PokemonList[i-1].name}     HP = ${PokemonList[i-1].HP}` +
+  `   EP = ${PokemonList[i-1].EP}   Speed = ${PokemonList[i-1].speed} <br>`)
+}
+document.write ('Player 1 <br> ---------------------------------------- <br>')
+/*volba pokemonov*/
+var player1_pokemon = PokemonList[prompt('Player1 select pokemon:') - 1]
+player1_pokemon.owner = 'player'
+if(choice_bot == 2){
+  document.write('player2 <br> ---------------------------------------- <br>')
+  var player2_pokemon = PokemonList[prompt('Player2 select pokemon:') - 1]
+  player2_pokemon.owner = 'player'
+} else {
+  var player2_pokemon = PokemonList[Math.floor(Math.random() * PokemonList.length)]
+  player2_pokemon.owner = 'bot'
+}
+document.write(`Player 1 have chosen ${player1_pokemon.name} <br> Player 2 have ` +
+ `chosen ${player2_pokemon.name} <br> ---------------------------------------- <br>` +
+ `The match begins! <br>`)
+ /*cyklus samotnej hry*/
+ /*pred pustenim dalsieho tahu sa kontoluje, ci jeden z pokemonov este neprehral*/
+while(zero_HP(player1_pokemon, player2_pokemon) == false){
+  /*podla atributu speed sa rozhoduje, kto pojde utocit prvy a ak je tento rovnaky
+  tak sa nahodne generuje, kto zacne v danej dvojici tahov*/
+  if (player1_pokemon.speed > player2_pokemon.speed){
+    Turn(player1_pokemon, player2_pokemon, choice_bot)
+    /*po 1. tahu sa skontroluje, ci jeden z pokemonov neprehral, a ak nie tak sa tah
+    zopakuje ale s vymenenymi rolami utociaceho a braniaceho pokemona*/
+    if (zero_HP(player1_pokemon, player2_pokemon) == false){
+      Turn(player2_pokemon, player1_pokemon, choice_bot)
+    }
+  } else if (player1_pokemon.speed < player2_pokemon.speed) {
+    Turn(player2_pokemon, player1_pokemon, choice_bot)
+    if (zero_HP(player1_pokemon, player2_pokemon) == false){
+      Turn(player1_pokemon, player2_pokemon, choice_bot)
+    }
+  } else {
+    if (Math.random > 0.5){
+      Turn(player2_pokemon, player1_pokemon, choice_bot)
+      if (zero_HP(player1_pokemon, player2_pokemon) == false){
+        Turn(player1_pokemon, player2_pokemon, choice_bot)
+      }
+    } else{
+      Turn(player1_pokemon, player2_pokemon, choice_bot)
+      if (zero_HP(player1_pokemon, player2_pokemon) == false){
+        Turn(player2_pokemon, player1_pokemon, choice_bot)
+      }
+    }
+  }
+}
+/*vypis vytaza*/
+if (player1_pokemon.HP <= 0){
+  document.write(`${player2_pokemon.name} wins !!!!`)
+} else{
+  document.write(`${player1_pokemon.name} wins !!!!`)
+}
+
+
+</script>
+
+</body>
+</html>
