@@ -4,13 +4,17 @@
 
 <h1>Pokemon game, choose mode:</h1>
 
-<button type="button" onclick= var choice_bot = 1>Single player</button>
-<button type="button" onclick= var choice_bot = 2>Multi player</button>
+<button type="button" onclick="Choice_bot(1)">Single player</button>
+<button type="button" onclick="Choice_bot(2)">Multi player</button>
 
 
 <script>
-
+var choice_bot
+function Choice_bot(choice){
+   choice_bot = choice
+}
 </script>
+
 
 </body>
 </html>
