@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1 id="headline">Pokemon game, choose pokemon for player1:</h1>
+
+<button type="button" id="pokemon1" onclick="select(Charizard)">Charizard</button>
+<button type="button" id="pokemon2" onclick="select(Machamp)">Machamp</button>
+<button type="button" id="pokemon3" onclick="select(Nidoking)">Nidoking</button>
+
+
+<script>
+var choice_bot = localStorage.getItem("varTransfer");
+
+/*funkcia, pre zdielanie tried medzi jednotlivymi html strankami*/
+if ( !Storage.prototype.setObject ) {
+    Storage.prototype.setObject = function(key, value) {
+        this.setItem(key, JSON.stringify(value));
+    }
+}
+
+/*urcenie, ci pokemona vlasti bot alebo nejaky hrac a jeho nasledne zdielanie*/
+function select(pokemon){
+  pokemon.owner = 'player'
+  localStorage.setObject("varTransfer_pok1",pokemon);
+  /*kontrola bot a nasledna bud nahodna volba pokemona pre neho alebo zmena odkazov v buttons
+  na select2, kde si pokemona vyberie hrac 2*/
+  if (choice_bot == 1){
+    pokemon = PokemonList[Math.floor(Math.random() * PokemonList.length)]
+    pokemon.owner = 'bot'
+    localStorage.setObject("varTransfer_pok2",pokemon);
+    location.href='file:///C:/Users/Admin/Desktop/Pokemon/Pokemon.html'
+}else{
+  document.getElementById("headline").innerHTML = 'Pokemon game, choose pokemon for player2:';
+  document.getElementById("pokemon1").setAttribute('onclick','select2(Charizard)')
+  document.getElementById("pokemon2").setAttribute('onclick','select2(Machamp)')
+  document.getElementById("pokemon3").setAttribute('onclick','select2(Nidoking)')
+}
+}
+
+/*nacitanie pokemona pre hraca 2*/
+function select2(pokemon2){
+  pokemon2.owner = 'player'
+  localStorage.setObject("varTransfer_pok2",pokemon2);
+  location.href='file:///C:/Users/Admin/Desktop/Pokemon/Pokemon.html'
+}
+
+/* zadefinovanie tried Attack a Pokemon*/
+function Attack(name,power,acc,EPcost){
+  this.name = name
+  this.power = power
+  this.acc = acc
+  this.EPcost = EPcost
+}
+
+function Pokemon(name,HP,EP,speed,attacks){
+  this.name = name
+  this.maxHP = HP
+  this.HP = HP
+  this.maxEP = EP
+  this.EP = EP
+  this.speed = speed
+  this.attacks = attacks
+  this.owner = 'empty'
+}
+
+/*generovanie utokov*/
+var wing_att = new Attack('wing attack',30,90,15)
+var seismic_toss = new Attack('seismic toss',110,70,60)
+var cut = new Attack('cut',15,90,5)
+var flamethrower = new Attack('flamethrower',60,80,35)
+var mega_punch = new Attack('mega_punch',70,75,40)
+var punch = new Attack('punch',15,90,5)
+var leer = new Attack('leer',0,50,0)
+var earthquake = new Attack('earthquake',100,100,100)
+var megahorn = new Attack('megahorn',120,60,60)
+var thrash = new Attack('trash',80,70,45)
+
+/*generovanie pokemonov*/
+var Charizard = new Pokemon('Charizard',200,120,100,[wing_att,seismic_toss,cut,flamethrower],200,120)
+var Machamp = new Pokemon('Machamp  ',180,140,90,[mega_punch,seismic_toss,leer,punch],180,140)
+var Nidoking = new Pokemon('Nidoking ',220,130,105,[earthquake,megahorn,thrash,punch],220,130)
+
+/*list je vytvoreny v podstate iba kvoli vyberu nahodneho pokemona pre bota*/
+var PokemonList = [Charizard, Machamp, Nidoking]
+
+
+
+</script>
+
+</body>
+</html>

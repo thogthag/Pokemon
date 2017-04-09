@@ -4,14 +4,16 @@
 
 <h1>Pokemon game, choose mode:</h1>
 
-<button type="button" onclick="Choice_bot(1)">Single player</button>
-<button type="button" onclick="Choice_bot(2)">Multi player</button>
+<!--Iba jednoducha rychla stranka na nacitanie volby bota, ktora dalej odkazuje na Pokemon_selection1-->
+<button type="button" onclick="Choice_bot(1); location.href='file:///C:/Users/Admin/Desktop/Pokemon/Pokemon_selection1.html'">Single player</button>
+<button type="button" onclick="Choice_bot(2); location.href='file:///C:/Users/Admin/Desktop/Pokemon/Pokemon_selection1.html'">Multi player</button>
 
 
 <script>
 var choice_bot
 function Choice_bot(choice){
    choice_bot = choice
+   localStorage.setItem("varTransfer",choice_bot);
 }
 </script>
 
