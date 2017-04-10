@@ -176,6 +176,10 @@ if (Defender.speed > Attacker.speed){
     swap_roles(Attacker,Defender)
     }
 }
+document.getElementById("attk_bttn_0").innerHTML = `${Attacker.attacks[0].name}(${Attacker.attacks[0].EPcost})`
+document.getElementById("attk_bttn_1").innerHTML = `${Attacker.attacks[1].name}(${Attacker.attacks[1].EPcost})`
+document.getElementById("attk_bttn_2").innerHTML = `${Attacker.attacks[2].name}(${Attacker.attacks[2].EPcost})`
+document.getElementById("attk_bttn_3").innerHTML = `${Attacker.attacks[3].name}(${Attacker.attacks[3].EPcost})`
 
 </script>
 
