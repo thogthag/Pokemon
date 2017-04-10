@@ -166,20 +166,19 @@ function Turn(){
 kto ma zacat. uprava turn_count po prvotnom vypise je tam preto, aby poradie vo vypise
 bolo stale rovnake a aby bol ako prvy vypisovany pokemon, ktory bol aj ako prvy zvoleny.*/
 var turn_count = 1
-HTMLadjust()
-nullColor()
-turn_count = 1
 if (Defender.speed > Attacker.speed){
   swap_roles(Attacker,Defender)
+  turn_count += 1
 } else if (Defender.speed == Attacker.speed) {
   if (Math.random > 0.5){ /* 50% sanca na vymenu zacinajuceho pokemona, ak maju rovnaky speed*/
     swap_roles(Attacker,Defender)
+    turn_count += 1
     }
 }
-document.getElementById("attk_bttn_0").innerHTML = `${Attacker.attacks[0].name}(${Attacker.attacks[0].EPcost})`
-document.getElementById("attk_bttn_1").innerHTML = `${Attacker.attacks[1].name}(${Attacker.attacks[1].EPcost})`
-document.getElementById("attk_bttn_2").innerHTML = `${Attacker.attacks[2].name}(${Attacker.attacks[2].EPcost})`
-document.getElementById("attk_bttn_3").innerHTML = `${Attacker.attacks[3].name}(${Attacker.attacks[3].EPcost})`
+
+HTMLadjust()
+nullColor()
+turn_count = 1
 
 </script>
 
