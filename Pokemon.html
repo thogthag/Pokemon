@@ -124,13 +124,15 @@ function Turn(){
     }
     /*ak neni dost EP na zvoleny attack tak pokemon regeneruje 20% z max EP*/
     if(Attacker.EP < Attacker.attacks[attk_select].EPcost){
-      document.getElementById("previous_turn").innerHTML = `${Attacker.name} doesn\'t have enough EP so he will rest. <br>`
+      document.getElementById("previous_turn").innerHTML = `${Attacker.name} doesn\'t` +
+      ` have enough EP to use ${Attacker.attacks[attk_select].name} so he will rest. <br>`
       Attacker.EP += Attacker.maxEP / 5
     } else {
       hit = Math.random() * 100 /*nahodne cislo 0-99 na generovanie zasahu*/
       /*netrafenie utoku*/
       if (hit > Attacker.attacks[attk_select].acc){
-        document.getElementById("previous_turn").innerHTML = `${Attacker.name} missed his attack. <br>`
+        document.getElementById("previous_turn").innerHTML = `${Attacker.name} tried` +
+        ` to use ${Attacker.attacks[attk_select].name} but he missed. <br>`
       } else{
         /*trafenie utoku a generovanie sili utoku v rozsahu +/- 30% od atributu power*/
         dmg = Math.floor(Attacker.attacks[attk_select].power *
