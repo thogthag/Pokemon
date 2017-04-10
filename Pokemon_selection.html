@@ -29,7 +29,7 @@ function select(pokemon){
     pokemon = PokemonList[Math.floor(Math.random() * PokemonList.length)]
     pokemon.owner = 'bot'
     localStorage.setObject("varTransfer_pok2",pokemon);
-    location.href='file:///C:/Users/Admin/Desktop/Pokemon/Pokemon.html'
+    location.href='Pokemon.html'
 }else{
   document.getElementById("headline").innerHTML = 'Pokemon game, choose pokemon for player2:';
   document.getElementById("pokemon1").setAttribute('onclick','select2(Charizard)')
@@ -42,7 +42,7 @@ function select(pokemon){
 function select2(pokemon2){
   pokemon2.owner = 'player'
   localStorage.setObject("varTransfer_pok2",pokemon2);
-  location.href='file:///C:/Users/Admin/Desktop/Pokemon/Pokemon.html'
+  location.href='Pokemon.html'
 }
 
 /* zadefinovanie tried Attack a Pokemon*/
